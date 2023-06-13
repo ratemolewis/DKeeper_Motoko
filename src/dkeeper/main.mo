@@ -22,5 +22,10 @@ actor DKeeper {
    //add the newNote to the front of the notes lists
        notes := List.push(newNote, notes);
        Debug.print(debug_show(notes));
-    }
+    };
+    //read the list notes, to pass to the frontend
+    public query func readNotes(): async [Note]{
+        // convert the list to array objects
+      return List.toArray(notes);// return an array of note objects
+    };
 };

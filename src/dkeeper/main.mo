@@ -1,5 +1,6 @@
 import List "mo:base/List";
 import Debug "mo:base/Debug";
+import Nat16 "mo:base/Nat16";
 //create new canister
 actor DKeeper {
     //create new data type
@@ -11,7 +12,8 @@ actor DKeeper {
 
     // create new variable, notes with data dtypr List
     // list will contain Note type
-    var notes: List.List<Note> = List.nil<Note>();
+    // stable key-word persist data through upgrades 
+    stable var notes: List.List<Note> = List.nil<Note>();
 
     public func newNote( titleText: Text, contentText: Text){
         // create new note
@@ -27,5 +29,12 @@ actor DKeeper {
     public query func readNotes(): async [Note]{
         // convert the list to array objects
       return List.toArray(notes);// return an array of note objects
+    };
+
+    public func removeNote(id: Nat){
+        // take drop append
+        let listFront = List.take(notes, id);
+        let listBack = List.drop(notes, id + 1);
+        notes := List.append(listFront, listBack);
     };
 };

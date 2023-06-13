@@ -14,7 +14,7 @@ function App() {
     setNotes(prevNotes => {
       //ssave the note to motoko backend
       dkeeper.newNote(newNote.title, newNote.content);
-      return [...prevNotes, newNote];
+      return [newNote, ...prevNotes ];
     });
   }
 // this function is triggered every time the app react componet is rerendered
@@ -31,6 +31,9 @@ function App() {
   }
 
   function deleteNote(id) {
+    //sent to the maim.mo file
+    dkeeper.removeNote(id);
+
     setNotes(prevNotes => {
       return prevNotes.filter((noteItem, index) => {
         return index !== id;
